@@ -12,8 +12,6 @@ const io = socketio(server);
 const activeRooms = new Set();
 
 io.on('connection', (socket) => {
-    console.log("user has connected...", "socket:", socket.id)
-
     socket.on('join', ({ name, room }, callback) => {
         let { error, user } = addUser({ id: socket.id, name, room })
         if (error) return callback({ error: error })
@@ -38,10 +36,8 @@ io.on('connection', (socket) => {
             if (getUsersInRoom(user.room).length == 0) {
                 activeRooms.delete(user.room);
                 io.socketsLeave(user.room);
-                console.log(`The room ${user.room} is now empty as well as deleted...`)
             }
         }
-        console.log('user has disconnected due to', reason)
     })
 })
 
