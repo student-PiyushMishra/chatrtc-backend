@@ -17,6 +17,7 @@ io.on('connection', (socket) => {
         if (error) return callback({ error: error })
         socket.join(user.room)
         socket.emit('message', { user: 'System', text: `${user.name}, welcome to room ${user.room}` })
+	console.log(`user has joined with a name ${user.name}`)
         socket.broadcast.to(user.room).emit('message', { user: 'System', text: `${user.name} has joined the chat!` })
         io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) })
         callback();
